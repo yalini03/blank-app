@@ -53,8 +53,11 @@ def calculate_AGB_LB(dbh, wood_density):
         equation_used = "Equation C and Equation B"
     return agb, lb, equation_used
 
-def calculate_carbon_storage(agb, carbon_factor):
-    return agb * carbon_factor
+def Urban_Tree_AGB(agb):
+    return agb * 0.8
+
+def calculate_carbon_storage(Urban_Tree_AGB):
+    return 0.47 * Urban_Tree_AGB
 
 health_factor_dict = {
     "Excellent": 1.00,
@@ -73,30 +76,34 @@ species = st.text_input("Species Name")
 col1, col2 = st.columns(2)
 with col1:
     dbh = st.number_input("DBH (cm)", min_value=0.1, value=30.0, step=0.1)
-    carbon_type = st.selectbox("Select Carbon Factor",["General Tree [0.47]", "Urban Tree [0.8]"])
+    #carbon_type = st.selectbox("Select Carbon Factor",["General Tree [0.47]", "Urban Tree [0.8]"])
 with col2:
-    wood_density = st.number_input("Wood density, ρ (g/cm³)", min_value=0.1, value=0.60, step=0.01)
-    health_Level = st.selectbox("Tree Health Level",["Excellent", "Good", "Fair", "Poor"])
-
+    wood_density = st.number_input("Wood density, ρ (g/cm³)", min_value=0.08, max_value=1.39, value=0.1, step=0.01)
+    #health_Level = st.selectbox("Tree Health Level",["Excellent", "Good", "Fair", "Poor"])
+    
+health_Level = st.selectbox("Tree Health Level",["Excellent", "Good", "Fair", "Poor"])
 health_factor = health_factor_dict[health_Level]
 
-if carbon_type == "General Tree [0.47]":
-        carbon_factor = 0.47
-else:
-    carbon_factor = 0.8
+# if carbon_type == "General Tree [0.47]":
+#         carbon_factor = 0.47
+# else:
+#     carbon_factor = 0.8
 
 if st.button("Calculate Carbon Storage & Sequestration"):
 
     # Current DBH calculation
     agb, lb, equation_used = calculate_AGB_LB(dbh, wood_density)
-    carbon_storage = calculate_carbon_storage(agb, carbon_factor)
+    urban_tree_agb = Urban_Tree_AGB(agb)
+    carbon_storage = calculate_carbon_storage(urban_tree_agb)
 
     # Simulated DBH after 1 year
     Dt = calculate_Simulated_dbh(dbh, t=1)
 
     # AGB and LB using simulated DBH
     agb_dt, lb_dt, equation_used_dt = calculate_AGB_LB(Dt, wood_density)
-    carbon_storage_dt = calculate_carbon_storage(agb_dt, carbon_factor)
+    urban_tree_agb_dt = Urban_Tree_AGB(agb_dt)
+    carbon_storage_dt = calculate_carbon_storage(urban_tree_agb_dt)
+
     carbon_sequestration = (carbon_storage_dt - carbon_storage) * health_factor
 
     result = {
@@ -104,13 +111,15 @@ if st.button("Calculate Carbon Storage & Sequestration"):
         "DBH (cm)": dbh,
         "Wood Density (g/cm³)": wood_density,
         "Tree Health Level": health_Level,
-        "Carbon Factor": carbon_factor,
+        #"Carbon Factor": carbon_factor,
         "Current AGB (kg/tree)": agb,
-        "Current LB (kg/tree)": lb,
+        #"Current LB (kg/tree)": lb,
+        "Urban Tree AGB (kg tree)": urban_tree_agb,
         "Current Carbon Storage (kg C/tree)": carbon_storage,
         "Simulated DBH After 1 Year (cm)": Dt,
         "Simulated AGB (kg/tree)": agb_dt,
-        "Simulated LB (kg/tree)": lb_dt,
+        #"Simulated LB (kg/tree)": lb_dt,
+        "Simulated Urban Tree AGB (kg tree)": urban_tree_agb_dt,
         "Simulated Carbon Storage (kg C/tree)": carbon_storage_dt,
         "Carbon Sequestration (kg C/tree/year)": carbon_sequestration
     }
@@ -127,7 +136,8 @@ if st.button("Calculate Carbon Storage & Sequestration"):
         st.write(f"DBH (cm): {dbh:.2f}")
         #st.write(f"Equation used: {equation_used}")
         st.write("AGB (kg/tree):", f"{agb:.2f}")
-        st.write("LB (kg/tree):", f"{lb:.2f}")
+        #st.write("LB (kg/tree):", f"{lb:.2f}")
+        st.write("Urban Tree AGB (kg/tree):", f"{urban_tree_agb:.2f}")
         st.success(f"Carbon Storage: **{carbon_storage:.2f} kg C/tree**")
 
     with col2:
@@ -135,7 +145,8 @@ if st.button("Calculate Carbon Storage & Sequestration"):
         st.write(f"Simulated DBH, (cm): {Dt:.2f}")
         #st.write(f"Equation used: {equation_used_dt}")
         st.write("Simulated AGB (kg/tree):", f"{agb_dt:.2f}")
-        st.write("Simulated LB (kg/tree):", f"{lb_dt:.2f}")
+        #st.write("Simulated LB (kg/tree):", f"{lb_dt:.2f}")
+        st.write("Simulated Urban Tree AGB (kg/tree):", f"{urban_tree_agb_dt:.2f}")
         st.success(f"Simulated Carbon Storage: **{carbon_storage_dt:.2f} kg C/tree**")
     
     st.success(f"Carbon Sequestration: **{carbon_sequestration:.2f} kg C/tree/year**")
