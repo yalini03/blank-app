@@ -89,7 +89,7 @@ health_factor = health_factor_dict[health_Level]
 # else:
 #     carbon_factor = 0.8
 
-if st.button("Calculate Carbon Storage & Sequestration"):
+if st.button("Calculate Carbon Storage, Sequestration & CO2 Equivalent"):
 
     # Current DBH calculation
     agb, lb, equation_used = calculate_AGB_LB(dbh, wood_density)
@@ -105,6 +105,7 @@ if st.button("Calculate Carbon Storage & Sequestration"):
     carbon_storage_dt = calculate_carbon_storage(urban_tree_agb_dt)
 
     carbon_sequestration = (carbon_storage_dt - carbon_storage) * health_factor
+    co2_equivalent = carbon_sequestration * (44 / 12)
 
     result = {
         "Species": species,
@@ -112,16 +113,18 @@ if st.button("Calculate Carbon Storage & Sequestration"):
         "Wood Density (g/cm³)": wood_density,
         "Tree Health Level": health_Level,
         #"Carbon Factor": carbon_factor,
-        "Current AGB (kg/tree)": agb,
+        #"Current AGB (kg/tree)": agb,
         #"Current LB (kg/tree)": lb,
         "Urban Tree AGB (kg tree)": urban_tree_agb,
         "Current Carbon Storage (kg C/tree)": carbon_storage,
         "Simulated DBH After 1 Year (cm)": Dt,
-        "Simulated AGB (kg/tree)": agb_dt,
+        #"Simulated AGB (kg/tree)": agb_dt,
         #"Simulated LB (kg/tree)": lb_dt,
         "Simulated Urban Tree AGB (kg tree)": urban_tree_agb_dt,
         "Simulated Carbon Storage (kg C/tree)": carbon_storage_dt,
-        "Carbon Sequestration (kg C/tree/year)": carbon_sequestration
+        "Carbon Sequestration (kg C/tree/year)": carbon_sequestration,
+        "CO2 Equivalent (kg CO2/tree/year)": co2_equivalent
+
     }
 
     st.session_state.results_log.append(result)
@@ -135,7 +138,7 @@ if st.button("Calculate Carbon Storage & Sequestration"):
         st.markdown("### Current DBH")
         st.write(f"DBH (cm): {dbh:.2f}")
         #st.write(f"Equation used: {equation_used}")
-        st.write("AGB (kg/tree):", f"{agb:.2f}")
+        #st.write("AGB (kg/tree):", f"{agb:.2f}")
         #st.write("LB (kg/tree):", f"{lb:.2f}")
         st.write("Urban Tree AGB (kg/tree):", f"{urban_tree_agb:.2f}")
         st.success(f"Carbon Storage: **{carbon_storage:.2f} kg C/tree**")
@@ -144,12 +147,13 @@ if st.button("Calculate Carbon Storage & Sequestration"):
         st.markdown("### Simulated DBH After 1 Year")
         st.write(f"Simulated DBH, (cm): {Dt:.2f}")
         #st.write(f"Equation used: {equation_used_dt}")
-        st.write("Simulated AGB (kg/tree):", f"{agb_dt:.2f}")
+        #st.write("Simulated AGB (kg/tree):", f"{agb_dt:.2f}")
         #st.write("Simulated LB (kg/tree):", f"{lb_dt:.2f}")
         st.write("Simulated Urban Tree AGB (kg/tree):", f"{urban_tree_agb_dt:.2f}")
         st.success(f"Simulated Carbon Storage: **{carbon_storage_dt:.2f} kg C/tree**")
     
     st.success(f"Carbon Sequestration: **{carbon_sequestration:.2f} kg C/tree/year**")
+    st.success(f"CO2 Equivalent: **{co2_equivalent:.2f} kg CO2/tree/year**")
 
     st.info("This result has been added to the saved results log.")
 
@@ -173,7 +177,3 @@ if len(st.session_state.results_log) > 0:
     if st.button("Clear Results Log"):
         st.session_state.results_log = []
         st.warning("Results log cleared. Please refresh or calculate again.")  
-
-
-    
-   
