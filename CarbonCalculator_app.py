@@ -13,21 +13,24 @@ def equation_A(dbh, wood_density):
     """AGB for DBH > 25 cm"""
     if dbh <= 0 or wood_density <= 0:
         raise ValueError ("DBH & Wood Density must be greater than 0")
-    agb = wood_density * math.exp(-1.499 + 2.148 * math.log(dbh)+ 0.207 * (math.log(dbh) ** 2)- 0.0281 * (math.log(dbh) ** 3))
+    #agb = wood_density * math.exp(-1.499 + 2.148 * math.log(dbh)+ 0.207 * (math.log(dbh) ** 2)- 0.0281 * (math.log(dbh) ** 3))
+    agb = wood_density * np.exp(-1.499 + 2.148 * np.log(dbh) + 0.207 * (np.log(dbh))**2 - 0.0281 * (np.log(dbh))**3)
     return agb
 
 def equation_B(dbh):
     """LB for DBH > 25 cm & <= 25 cm"""
     if dbh <= 0:
         raise ValueError ("DBH must be greater than 0")
-    lb = math.exp(-5.136 + 2.882 * math.log(dbh)- 0.156 * (math.log(dbh) ** 2))
+    #lb = math.exp(-5.136 + 2.882 * math.log(dbh)- 0.156 * (math.log(dbh) ** 2))
+    lb = np.exp(-5.136 + 2.882 * np.log(dbh) - 0.156 * (np.log(dbh))**2)
     return lb
 
 def equation_C(dbh, wood_density):
     """AGB for DBH <= 25 cm"""
     if dbh <= 0 or wood_density <= 0:
         raise ValueError ("DBH & Wood Density must be greater than 0")
-    agb = math.exp(-1.130 + (2.267 * math.log(dbh))+ (1.186 * math.log(wood_density)))
+    #agb = math.exp(-1.130 + (2.267 * math.log(dbh))+ (1.186 * math.log(wood_density)))
+    agb = np.exp(-1.130 + 2.267 * np.log(dbh) + 1.186 * np.log(wood_density))
     return agb
 
 def calculate_Simulated_dbh(dbh, t=1):
@@ -76,7 +79,7 @@ st.subheader("Input Tree Information")
 species = st.text_input("Species Name")
 col1, col2 = st.columns(2)
 with col1:
-    dbh = st.number_input("DBH (cm)", min_value=0.1, value=30.0, step=0.1)
+    dbh = st.number_input("DBH (cm)", min_value=0.1, value=25.0, step=0.1)
     #carbon_type = st.selectbox("Select Carbon Factor",["General Tree [0.47]", "Urban Tree [0.8]"])
 with col2:
     wood_density = st.number_input("Wood density, ρ (g/cm³)", min_value=0.08, max_value=1.39, value=0.1, step=0.01)
