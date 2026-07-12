@@ -37,7 +37,8 @@ def calculate_Simulated_dbh(dbh, t=1):
     else:
         r = 0.101
         c = 0.554
-    Dt = ( (dbh ** (1 - c)) + (r * (1 - c) * t) ) ** (1 / (1 - c))
+    #Dt = ( (dbh ** (1 - c)) + (r * (1 - c) * t) ) ** (1 / (1 - c))
+    Dt = ((dbh - c) + r * t * (1 - c)) / (1 - c)
     return Dt
 
 #Declaring Calculation Functions
