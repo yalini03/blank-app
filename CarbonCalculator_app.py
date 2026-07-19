@@ -33,6 +33,13 @@ def equation_C(dbh, wood_density):
     agb = np.exp(-1.130 + 2.267 * np.log(dbh) + 1.186 * np.log(wood_density))
     return agb
 
+def equation_RB(agb):
+    """Root Biomass (RB) from Aboveground Biomass (AGB)"""
+    if agb <= 0:
+        raise ValueError("AGB must be greater than 0")
+    rb = np.exp(-1.085 + 0.9256 * np.log(agb))
+    return rb
+
 def calculate_Simulated_dbh(dbh, t=1):
     if dbh < 20:
         r = 0.0525
@@ -98,6 +105,7 @@ if st.button("Calculate Carbon Storage, Sequestration & CO2 Equivalent"):
     # Current DBH calculation
     agb, lb, equation_used = calculate_AGB_LB(dbh, wood_density)
     urban_tree_agb = Urban_Tree_AGB(agb)
+    rb = equation_RB(agb)
     carbon_storage = calculate_carbon_storage(urban_tree_agb)
 
     # Simulated DBH after 1 year
@@ -106,6 +114,7 @@ if st.button("Calculate Carbon Storage, Sequestration & CO2 Equivalent"):
     # AGB and LB using simulated DBH
     agb_dt, lb_dt, equation_used_dt = calculate_AGB_LB(Dt, wood_density)
     urban_tree_agb_dt = Urban_Tree_AGB(agb_dt)
+    rb_dt = equation_RB(agb_dt)
     carbon_storage_dt = calculate_carbon_storage(urban_tree_agb_dt)
 
     carbon_sequestration = (carbon_storage_dt - carbon_storage) * health_factor
@@ -119,12 +128,14 @@ if st.button("Calculate Carbon Storage, Sequestration & CO2 Equivalent"):
         #"Carbon Factor": carbon_factor,
         #"Current AGB (kg/tree)": agb,
         "Current Leaf Biomass, LB (kg/tree)": lb,
-        "Urban Tree AGB (kg tree)": urban_tree_agb,
+        "Current Root Biomass, RB (kg/tree)": rb,
+        "Urban Tree Trunk AGB (kg tree)": urban_tree_agb,
         "Current Carbon Storage (kg C/tree)": carbon_storage,
         "Simulated DBH After 1 Year (cm)": Dt,
         #"Simulated AGB (kg/tree)": agb_dt,
         "Simulated Leaf Biomass, LB (kg/tree)": lb_dt,
-        "Simulated Urban Tree AGB (kg tree)": urban_tree_agb_dt,
+        "Simulated Root Biomass, RB (kg/tree)": rb_dt,
+        "Simulated Urban Tree Trunk AGB (kg tree)": urban_tree_agb_dt,
         "Simulated Carbon Storage (kg C/tree)": carbon_storage_dt,
         "Carbon Sequestration (kg C/tree/year)": carbon_sequestration,
         "CO2 Equivalent (kg CO2/tree/year)": co2_equivalent
@@ -144,7 +155,8 @@ if st.button("Calculate Carbon Storage, Sequestration & CO2 Equivalent"):
         #st.write(f"Equation used: {equation_used}")
         #st.write("AGB (kg/tree):", f"{agb:.2f}")
         st.write("Leaf Biomass, LB (kg/tree):", f"{lb:.2f}")
-        st.write("Urban Tree AGB (kg/tree):", f"{urban_tree_agb:.2f}")
+        st.write("Root Biomass, RB (kg/tree):", f"{rb:.2f}")
+        st.write("Urban Tree Trunk AGB (kg/tree):", f"{urban_tree_agb:.2f}")
         st.success(f"Carbon Storage: **{carbon_storage:.2f} kg C/tree**")
 
     with col2:
@@ -153,7 +165,8 @@ if st.button("Calculate Carbon Storage, Sequestration & CO2 Equivalent"):
         #st.write(f"Equation used: {equation_used_dt}")
         #st.write("Simulated AGB (kg/tree):", f"{agb_dt:.2f}")
         st.write("Simulated Leaf Biomass, LB (kg/tree):", f"{lb_dt:.2f}")
-        st.write("Simulated Urban Tree AGB (kg/tree):", f"{urban_tree_agb_dt:.2f}")
+        st.write("Simulated Root Biomass, RB (kg/tree):", f"{rb_dt:.2f}")
+        st.write("Simulated Urban Tree Trunk AGB (kg/tree):", f"{urban_tree_agb_dt:.2f}")
         st.success(f"Simulated Carbon Storage: **{carbon_storage_dt:.2f} kg C/tree**")
     
     st.success(f"Carbon Sequestration: **{carbon_sequestration:.2f} kg C/tree/year**")
