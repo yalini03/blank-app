@@ -118,12 +118,12 @@ if st.button("Calculate Carbon Storage, Sequestration & CO2 Equivalent"):
         "Tree Health Level": health_Level,
         #"Carbon Factor": carbon_factor,
         #"Current AGB (kg/tree)": agb,
-        #"Current LB (kg/tree)": lb,
+        "Current Leaf Biomass, LB (kg/tree)": lb,
         "Urban Tree AGB (kg tree)": urban_tree_agb,
         "Current Carbon Storage (kg C/tree)": carbon_storage,
         "Simulated DBH After 1 Year (cm)": Dt,
         #"Simulated AGB (kg/tree)": agb_dt,
-        #"Simulated LB (kg/tree)": lb_dt,
+        "Simulated Leaf Biomass, LB (kg/tree)": lb_dt,
         "Simulated Urban Tree AGB (kg tree)": urban_tree_agb_dt,
         "Simulated Carbon Storage (kg C/tree)": carbon_storage_dt,
         "Carbon Sequestration (kg C/tree/year)": carbon_sequestration,
@@ -143,7 +143,7 @@ if st.button("Calculate Carbon Storage, Sequestration & CO2 Equivalent"):
         st.write(f"DBH (cm): {dbh:.2f}")
         #st.write(f"Equation used: {equation_used}")
         #st.write("AGB (kg/tree):", f"{agb:.2f}")
-        #st.write("LB (kg/tree):", f"{lb:.2f}")
+        st.write("Leaf Biomass, LB (kg/tree):", f"{lb:.2f}")
         st.write("Urban Tree AGB (kg/tree):", f"{urban_tree_agb:.2f}")
         st.success(f"Carbon Storage: **{carbon_storage:.2f} kg C/tree**")
 
@@ -152,7 +152,7 @@ if st.button("Calculate Carbon Storage, Sequestration & CO2 Equivalent"):
         st.write(f"Simulated DBH, (cm): {Dt:.2f}")
         #st.write(f"Equation used: {equation_used_dt}")
         #st.write("Simulated AGB (kg/tree):", f"{agb_dt:.2f}")
-        #st.write("Simulated LB (kg/tree):", f"{lb_dt:.2f}")
+        st.write("Simulated Leaf Biomass, LB (kg/tree):", f"{lb_dt:.2f}")
         st.write("Simulated Urban Tree AGB (kg/tree):", f"{urban_tree_agb_dt:.2f}")
         st.success(f"Simulated Carbon Storage: **{carbon_storage_dt:.2f} kg C/tree**")
     
