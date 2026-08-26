@@ -15,8 +15,8 @@ def set_background(image_file):
         .stApp {{
             background:
                 linear-gradient(
-                    rgba(5, 20, 15, 0.72),
-                    rgba(5, 20, 15, 0.82)
+                    rgba(5, 20, 15, 0.62),
+                    rgba(5, 20, 15, 0.62)
                 ),
                 url("data:image/jpg;base64,{encoded}");
             background-size: cover;
