@@ -36,7 +36,7 @@ def set_background(image_file):
 
         /* Transparent Streamlit header */
         header[data-testid="stHeader"] {{
-            background: rgba(8, 14, 18, 0.90);
+            background: rgba(8, 14, 18, 0.50);
         }}
 
         [data-testid="stAppViewContainer"] {{
