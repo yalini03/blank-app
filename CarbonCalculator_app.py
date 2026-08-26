@@ -4,29 +4,196 @@ import pandas as pd
 import numpy as np
 from io import BytesIO
 import base64
+from pathlib import Path
 
 def set_background(image_file):
-    with open(image_file, "rb") as f:
+    image_path = Path(__file__).resolve().parent / image_file
+
+    with open(image_path, "rb") as f:
         encoded = base64.b64encode(f.read()).decode()
 
     st.markdown(
         f"""
         <style>
+
+        /* ==========================================
+           FULL PAGE BACKGROUND
+           ========================================== */
         .stApp {{
             background:
                 linear-gradient(
-                    rgba(5, 20, 15, 0.42),
-                    rgba(5, 20, 15, 0.42)
+                    rgba(5, 20, 15, 0.12),
+                    rgba(5, 20, 15, 0.18)
                 ),
-                url("data:image/jpg;base64,{encoded}");
+                url("data:image/jpeg;base64,{encoded}");
+
             background-size: cover;
-            background-position: center;
+            background-position: center center;
+            background-repeat: no-repeat;
             background-attachment: fixed;
+            min-height: 100vh;
         }}
+
+        /* Transparent Streamlit header */
+        header[data-testid="stHeader"] {{
+            background: rgba(8, 14, 18, 0.90);
+        }}
+
+        [data-testid="stAppViewContainer"] {{
+            background: transparent;
+        }}
+
+        [data-testid="stMain"] {{
+            background: transparent;
+        }}
+
+
+        /* ==========================================
+           MAIN GLASS CALCULATOR PANEL
+           ========================================== */
+        .block-container {{
+            max-width: 850px;
+
+            margin-top: 65px;
+            margin-bottom: 65px;
+
+            padding: 45px 50px 50px 50px;
+
+            background: rgba(10, 28, 20, 0.72);
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 22px;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.35);
+
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }}
+
+
+        /* ==========================================
+           TITLE
+           ========================================== */
+        h1 {{
+            color: #ffffff !important;
+            font-size: 42px !important;
+            font-weight: 700 !important;
+            letter-spacing: -1px;
+            margin-bottom: 25px !important;
+        }}
+
+        h2, h3 {{
+            color: #ffffff !important;
+        }}
+
+        p, label {{
+            color: rgba(255,255,255,0.95) !important;
+        }}
+
+
+        /* ==========================================
+           INPUT BOXES
+           ========================================== */
+        div[data-baseweb="input"] > div {{
+            background: rgba(255,255,255,0.10) !important;
+
+            border: 1px solid rgba(255,255,255,0.18) !important;
+            border-radius: 10px !important;
+        }}
+
+        div[data-baseweb="input"] input {{
+            color: white !important;
+        }}
+
+
+        /* ==========================================
+           SELECT BOX
+           ========================================== */
+        div[data-baseweb="select"] > div {{
+            background: rgba(255,255,255,0.10) !important;
+
+            border: 1px solid rgba(255,255,255,0.18) !important;
+            border-radius: 10px !important;
+        }}
+
+
+        /* ==========================================
+           CALCULATE BUTTON
+           ========================================== */
+        .stButton > button {{
+            width: 100%;
+
+            background: rgba(83, 145, 82, 0.95);
+            color: white;
+
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+
+            padding: 0.75rem 1rem;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            transition: 0.2s;
+        }}
+
+        .stButton > button:hover {{
+            background: rgba(101, 165, 98, 1);
+            color: white;
+            border-color: rgba(255,255,255,0.30);
+        }}
+
+
+        /* ==========================================
+           RESULT METRICS
+           ========================================== */
+        div[data-testid="stMetric"] {{
+            background: rgba(255,255,255,0.08);
+
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 14px;
+
+            padding: 18px;
+
+            backdrop-filter: blur(6px);
+        }}
+
+
+        /* ==========================================
+           DATAFRAME
+           ========================================== */
+        [data-testid="stDataFrame"] {{
+            border-radius: 12px;
+            overflow: hidden;
+        }}
+
+
+        /* ==========================================
+           MOBILE
+           ========================================== */
+        @media (max-width: 768px) {{
+
+            .block-container {{
+                margin-top: 25px;
+                margin-left: 15px;
+                margin-right: 15px;
+
+                padding: 30px 22px;
+
+                border-radius: 16px;
+            }}
+
+            h1 {{
+                font-size: 30px !important;
+            }}
+        }}
+
         </style>
         """,
         unsafe_allow_html=True
     )
+
 
 set_background("background_park.jpg")
 
