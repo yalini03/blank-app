@@ -92,7 +92,7 @@ with col2:
     wood_density = st.number_input("Wood density, ρ (g/cm³)", min_value=0.08, max_value=1.39, value=0.1, step=0.01)
     #health_Level = st.selectbox("Tree Health Level",["Excellent", "Good", "Fair", "Poor"])
     
-health_Level = st.selectbox("Tree Health Level",["Excellent", "Good", "Fair", "Poor"])
+health_Level = st.selectbox("Tree Health Level",["Excellent", "Good", "Fair", "Dead"])
 health_factor = health_factor_dict[health_Level]
 
 # if carbon_type == "General Tree [0.47]":
