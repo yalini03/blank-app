@@ -3,6 +3,32 @@ import math
 import pandas as pd
 import numpy as np
 from io import BytesIO
+import base64
+
+def set_background(image_file):
+    with open(image_file, "rb") as f:
+        encoded = base64.b64encode(f.read()).decode()
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background:
+                linear-gradient(
+                    rgba(5, 20, 15, 0.72),
+                    rgba(5, 20, 15, 0.82)
+                ),
+                url("data:image/jpg;base64,{encoded}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+set_background("background.jpg")
 
 st.set_page_config(page_title = "Tree Carbon Calculator", layout = "centered")
 st.title("Biofilters: Tree Carbon Calculator")
