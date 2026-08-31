@@ -195,7 +195,7 @@ def set_background(image_file):
     )
 
 
-set_background("background_park.jpg")
+set_background("Calculator_BG.jpg")
 
 st.set_page_config(page_title = "Tree Carbon Calculator", layout = "centered")
 st.title("Biofilters: Tree Carbon Calculator")
