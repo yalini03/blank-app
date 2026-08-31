@@ -59,7 +59,7 @@ def set_background(image_file):
 
             padding: 45px 50px 50px 50px;
 
-            background: rgba(10, 28, 20, 0.42);
+            background: rgba(10, 28, 20, 0.32);
 
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 22px;
@@ -195,7 +195,7 @@ def set_background(image_file):
     )
 
 
-set_background("Calculator_BG.jpg")
+set_background("Calculator_BG1.jpg")
 
 st.set_page_config(page_title = "Tree Carbon Calculator", layout = "centered")
 st.title("Biofilters: Tree Carbon Calculator")
