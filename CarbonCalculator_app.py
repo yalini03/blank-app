@@ -59,7 +59,7 @@ def set_background(image_file):
 
             padding: 45px 50px 50px 50px;
 
-            background: rgba(10, 28, 20, 0.72);
+            background: rgba(10, 28, 20, 0.42);
 
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 22px;
