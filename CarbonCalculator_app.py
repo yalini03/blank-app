@@ -67,7 +67,7 @@ def set_background(image_file):
             box-shadow:
                 0 20px 60px rgba(0, 0, 0, 0.35);
 
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(10px);
         }}
 
