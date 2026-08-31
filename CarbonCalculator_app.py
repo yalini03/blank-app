@@ -20,12 +20,12 @@ def set_background(image_file):
            FULL PAGE BACKGROUND
            ========================================== */
         .stApp {{
-            background:
-                linear-gradient(
-                    rgba(5, 20, 15, 0.04),
-                    rgba(5, 20, 15, 0.07)
-                ),
-                url("data:image/jpeg;base64,{encoded}");
+            # background:
+            #     linear-gradient(
+            #         rgba(5, 20, 15, 0.04),
+            #         rgba(5, 20, 15, 0.07)
+            #     ),
+            #     url("data:image/jpeg;base64,{encoded}");
 
             background-size: cover;
             background-position: center center;
